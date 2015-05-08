@@ -15,5 +15,14 @@ Route::get('/', function()
 {
 	return View::make('main');
 });
+
+Route::post('webhook', function()
+{
+	header('HTTP/1.1 200 OK');
+	$body = @file_get_contents('php://input');
+	$event = json_decode($body);
+	$charge = $event->data->object;
+	//logic with object of webhook
+});
 //Bind Process Controller
 Route::resource('process/payment', 'ProcessController@payment');
