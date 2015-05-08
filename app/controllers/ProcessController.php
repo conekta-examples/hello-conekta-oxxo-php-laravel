@@ -3,25 +3,28 @@
 class ProcessController extends \BaseController {
 
     public function index() {
-        
+
     }
 
     public function payment() {
-        Conekta::setApiKey("key_yVL2GZrKn87qN2rE");
+        Conekta::setApiKey("key_v8TTXAcjJMyd3cKg");
+        //Conekta Private API Key
         try {
             $charge = Conekta_Charge::create(array(
-            "amount" => 5000,
+            "amount" => $_POST["amount"],
             "currency" => "MXN",
-            "description" => "CPMX5 Payment",
+            "description" => "Example of OXXO Payment",
             "reference_id"=> "orden_de_id_interno",
-            "card" => $_POST['conektaTokenId'] //"tok_a4Ff0dD2xYZZq82d9"
+            'cash'=>array(
+              'type'=>'oxxo'
+              )
             ));
         } catch (Conekta_Error $e) {
            return View::make('payment',array('message'=>$e->getMessage()));
         }
-        
-        return View::make('payment',array('message'=>$charge->status));
-        
+
+        return View::make('payment',array('message'=>$charge));
+
     }
 
 }
